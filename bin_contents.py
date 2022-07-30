@@ -1,3 +1,5 @@
+# Source: https://www.peelregion.ca/scripts/waste/how-to-sort-your-waste.pl
+
 contents = {
     'Recycling / Reusable': [1, 2, 3, 4, 5, 6, 7, 8, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 45, 61, 71, 72, 73, 74, 75, 77, 78, 79],
     'Garbage': [13, 24, 25, 41, 42, 43, 44, 56, 57, 59, 60, 76],
