@@ -1,5 +1,0 @@
-recycling = []
-
-garbage = []
-
-organics = []
