@@ -1,5 +1,8 @@
+from importlib.resources import contents
 import cv2
 import math
+
+from bin_contents import contents
 
 class ObjectDetection:
     def __init__(self, model_path, config_path):
@@ -30,8 +33,9 @@ class ObjectDetection:
             class_ids, confidence_scores, bounding_boxes = self.model.detect(frame)
             for class_id, confidence_score, bounding_box in zip(class_ids, confidence_scores, bounding_boxes):
                 (x, y, w, h) = bounding_box
-                class_name = self.classes[class_id]
-                cv2.putText(frame, f"{class_name} {math.floor(confidence_score * 1000)/10}%", (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
+                for key, value in contents.items():
+                    if class_id in value:
+                        cv2.putText(frame, f"{key} {math.floor(confidence_score * 1000)/10}%", (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
             cv2.imshow("Frame", frame)
