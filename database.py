@@ -1,3 +1,4 @@
+from h11 import Data
 from db_setup import db_connect
 
 class Database:
@@ -6,14 +7,14 @@ class Database:
         self.db_cursor = self.mysql_db.cursor()
 
     def add_user(self, username, password):
-        self.db_cursor.execute("SELECT * FROM users")
-        for u_name in self.db_cursor:
-            if u_name[0] == username:
-                return Exception('Error: Double Users')
-        self.db_cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
-        self.commit()
-        self.db_cursor.execute("INSERT INTO user_points (username, points) VALUES (%s, %s)", (username, 0))
-        self.commit()
+        self.db_cursor.execute(f"SELECT count(*) FROM users WHERE username = '{username}'")
+        if [x[0] for x in self.db_cursor][0] > 0:
+                raise Exception("Error: Duplicate UserID")
+        else:
+            self.db_cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+            self.commit()
+            self.db_cursor.execute("INSERT INTO user_points (username, points) VALUES (%s, %s)", (username, 0))
+            self.commit()
         return
 
     def authenticate_user(self, username, u_pass):
@@ -28,9 +29,8 @@ class Database:
         for points in self.db_cursor:
             return points[0]
 
-    def add_point(self, current_points, username):
-        current_points += 1
-        self.db_cursor.execute(f"UPDATE user_points SET points = {current_points} WHERE username = '{username}'")
+    def change_points(self, new_points, username):
+        self.db_cursor.execute(f"UPDATE user_points SET points = {new_points} WHERE username = '{username}'")
         self.commit()
 
     def commit(self):
