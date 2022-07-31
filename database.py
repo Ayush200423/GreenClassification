@@ -1,4 +1,3 @@
-from h11 import Data
 from db_setup import db_connect
 
 class Database:
