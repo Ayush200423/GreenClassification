@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-database/db_setup.py
+db_setup.py
 
 # C extensions
 *.so
