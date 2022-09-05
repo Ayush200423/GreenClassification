@@ -1,32 +1,27 @@
+import tkinter as tk
+
 from cv2_object_detection import ObjectDetection
 from database import Database
-from tkinter import *
 
 class Controller:
     def __init__(self):
         self.db = Database()
 
-        self.window = Tk()
+        self.window = tk.Tk()
         self.window.geometry('340x440') 
         self.window.title("Login")
 
-        self.auth = StringVar()
-        self.auth.set("")
-
-        self.count_recyclable = StringVar()
-        self.count_recyclable.set(0)
-
         self.window.configure(background = "black")
 
-        Label (self.window, text = "Username", bg="black", fg="white", font="Arial 13 bold") .grid(row = 1, column = 0, sticky = W)
-        self.username_entry = Entry(self.window, width = 20, bg = "white", fg = "black")
-        self.username_entry.grid(row = 2, column = 0, sticky = W)
+        tk.Label (self.window, text = "Username", bg="black", fg="white", font="Arial 13 bold") .grid(row = 1, column = 0, sticky = tk.W)
+        self.username_entry = tk.Entry(self.window, width = 20, bg = "white", fg = "black")
+        self.username_entry.grid(row = 2, column = 0, sticky = tk.W)
 
-        Label (self.window, text = "Password", bg="black", fg="white", font="Arial 13 bold") .grid(row = 3, column = 0, sticky = W)
-        self.password_entry = Entry(self.window, width = 20, bg = "white", fg = "black")
-        self.password_entry.grid(row = 4, column = 0, sticky = W)
+        tk.Label (self.window, text = "Password", bg="black", fg="white", font="Arial 13 bold") .grid(row = 3, column = 0, sticky = tk.W)
+        self.password_entry = tk.Entry(self.window, width = 20, bg = "white", fg = "black")
+        self.password_entry.grid(row = 4, column = 0, sticky = tk.W)
 
-        Button(self.window, text = "Start WebCam", width = 12, command = self.submit) .grid(row = 5, column = 0, sticky = W)
+        tk.Button(self.window, text = "Start WebCam", width = 12, command = self.submit) .grid(row = 5, column = 0, sticky = tk.W)
 
         self.window.mainloop()
             
@@ -37,7 +32,8 @@ class Controller:
             return
         try:
             self.db.add_user(self.username, self.password)
-        except:
+        except Exception as e:
+            print(e)
             if self.db.authenticate_user(self.username, self.password):
                 self.video()
             else:
